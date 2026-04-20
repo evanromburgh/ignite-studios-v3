@@ -9,8 +9,28 @@ Greenfield Nuxt app for the v3 rebuild ([PRD #1](https://github.com/evanromburgh
 
 ## Setup
 
-1. Copy `frontend/.env.example` to `frontend/.env` and set `NUXT_PUBLIC_SUPABASE_URL` and `NUXT_PUBLIC_SUPABASE_ANON_KEY` from your **v3** Supabase project.
-2. In Supabase Dashboard → Authentication → URL configuration, add `http://localhost:3000` (and callback paths your auth flow uses).
+1. Copy `frontend/.env.example` to `frontend/.env` and set `NUXT_PUBLIC_SUPABASE_URL` and `NUXT_PUBLIC_SUPABASE_ANON_KEY` from your **v3** Supabase project (Settings → API).
+2. Apply migrations to the **v3** project (CLI linked to that project only). See `backend/supabase/README.md`.
+3. In Supabase Dashboard → **Authentication** → **URL configuration**: set **Site URL** to `http://localhost:3000` for local dev, and add **Redirect URLs** that include `http://localhost:3000/**` (tighten later for production).
+
+### Verify connectivity
+
+- `GET /api/health` — JSON (`supabaseConfigured`, `db` row when migrations + env are correct).
+- `/health` — same payload in the browser.
+
+## CI
+
+GitHub Actions runs **lint → typecheck → test → build** on pushes and PRs (see `.github/workflows/ci.yml`). Use Node **22** and `npm ci` in `frontend/`.
+
+## Scripts (from `frontend/`)
+
+| Script        | Purpose        |
+|---------------|----------------|
+| `npm run dev` | Dev server     |
+| `npm run lint`| ESLint         |
+| `npm run typecheck` | `nuxt typecheck` |
+| `npm run test`| Vitest (run)   |
+| `npm run build` | Production build |
 
 ## Run (app lives in `frontend/`)
 
