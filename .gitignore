@@ -1,0 +1,14 @@
+# Local reference clone + scratch artifacts (not part of v3 source)
+.reference/
+
+# Dependencies & build
+node_modules/
+.output/
+dist/
+.nuxt/
+*.log
+
+# Env (keep .env.example committed)
+.env
+.env.*
+!.env.example
