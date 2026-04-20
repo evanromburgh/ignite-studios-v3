@@ -22,6 +22,10 @@ Greenfield Nuxt app for the v3 rebuild ([PRD #1](https://github.com/evanromburgh
 
 GitHub Actions runs **lint → typecheck → test → build** on pushes and PRs (see `.github/workflows/ci.yml`). Use Node **22** and `npm ci` in `frontend/`.
 
+## Pull requests and closing issues
+
+Opening a PR shows a template (`.github/PULL_REQUEST_TEMPLATE.md`). Put **`Closes #123`** (or `Fixes` / `Resolves`) in the PR **description** with the real issue number. When that PR is **merged** into the default branch, GitHub **closes** those issues automatically. Direct pushes to `main` without a PR do not run that linking—you can still close issues by hand or reference commits in a follow-up PR.
+
 ## Scripts (from `frontend/`)
 
 | Script        | Purpose        |
