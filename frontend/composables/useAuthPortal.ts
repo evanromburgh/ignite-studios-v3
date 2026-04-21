@@ -1,14 +1,9 @@
-import { ref } from 'vue'
+import type { PhoneCountry } from '~/data/phoneCountries'
+import { computed, ref } from 'vue'
 import { AUTH_OTP_LENGTH, CONFIG } from '~/config'
-import { REASON_FOR_BUYING_OPTIONS } from '~/data/reasonForBuyingOptions'
 import { validateEmailWithConfirm, validateSingleEmail } from '~/utils/authEmail'
 import { authErrorMessage } from '~/utils/authErrorMessage'
-import {
-  authPortalErrorClass,
-  authPortalInputClass,
-  authPortalLabelBlackClass,
-  authPortalLabelClass,
-} from '~/utils/authPortalClasses'
+import { authPortalInputClass, authPortalLabelBlackClass, authPortalLabelClass } from '~/utils/authPortalClasses'
 import { validateSignupIdentity } from '~/utils/authSignupValidation'
 import { useAuth } from '~/composables/useAuth'
 import { useAuthPortalProgress, type AuthPortalStep } from '~/composables/useAuthPortalProgress'
@@ -36,9 +31,6 @@ export function useAuthPortal() {
     phone,
     phoneCountryDropdownOpen,
     selectedPhoneCountry,
-    phoneCountries,
-    formatPhoneDialCode,
-    phoneFlagUrl,
     selectPhoneCountry,
     onPhoneInput,
     fullE164,
@@ -60,6 +52,47 @@ export function useAuthPortal() {
 
   const passwordMinLength = CONFIG.PASSWORD_MIN_LENGTH
 
+  const showPortalHeading = computed(
+    () => (mode.value === 'main' && !forgotSuccess.value) || mode.value === 'forgot',
+  )
+
+  const portalHeading = computed((): { title: string; subtitle?: string } => {
+    if (mode.value === 'forgot') {
+      return {
+        title: 'Reset password',
+        subtitle: 'Enter your email and we’ll send you a link to reset your password.',
+      }
+    }
+    if (step.value === 1) {
+      return {
+        title: 'Sign In or Create Account',
+        subtitle: 'Enter your email to get started.',
+      }
+    }
+    if (step.value === 2 && accountExists.value === false) {
+      return { title: 'Create your account' }
+    }
+    if (step.value === 3 && accountExists.value === false) {
+      return { title: 'Finalize your account' }
+    }
+    if (step.value === 2 && accountExists.value === true) {
+      return {
+        title: 'Welcome Back',
+        subtitle: 'Choose a login method below.',
+      }
+    }
+    if (step.value === 3 && signInMethod.value === 'password') {
+      return { title: 'Enter your password' }
+    }
+    if (step.value === 3 && signInMethod.value === 'email_code') {
+      return {
+        title: 'Check your email',
+        subtitle: `We sent a code to ${email.value}`,
+      }
+    }
+    return { title: '' }
+  })
+
   function resetToStep1() {
     step.value = 1
     progressStep.value = 1
@@ -73,6 +106,36 @@ export function useAuthPortal() {
     resetToStep1()
     email.value = ''
     confirmEmail.value = ''
+  }
+
+  function switchToForgotMode() {
+    mode.value = 'forgot'
+    resetToStep1()
+  }
+
+  function returnFromForgotToMain() {
+    mode.value = 'main'
+    error.value = null
+    resetToStep1()
+  }
+
+  function clearForgotSuccessAndReset() {
+    forgotSuccess.value = false
+    resetToStep1()
+  }
+
+  function goToSignupDetailsStep() {
+    step.value = 2
+  }
+
+  function onSelectPhoneCountry(c: PhoneCountry) {
+    selectPhoneCountry(c)
+    phoneCountryDropdownOpen.value = false
+  }
+
+  function choosePasswordSignIn() {
+    signInMethod.value = 'password'
+    step.value = 3
   }
 
   function validateEmailStep(): boolean {
@@ -216,7 +279,6 @@ export function useAuthPortal() {
 
   return {
     AUTH_OTP_LENGTH,
-    REASON_FOR_BUYING_OPTIONS,
     mode,
     step,
     progressStep,
@@ -232,10 +294,6 @@ export function useAuthPortal() {
     phone,
     phoneCountryDropdownOpen,
     selectedPhoneCountry,
-    phoneCountries,
-    formatPhoneDialCode,
-    phoneFlagUrl,
-    selectPhoneCountry,
     onPhoneInput,
     otpDigits,
     otpCode,
@@ -247,8 +305,16 @@ export function useAuthPortal() {
     loading,
     forgotSuccess,
     passwordMinLength,
+    showPortalHeading,
+    portalHeading,
     resetToStep1,
     goBackToStep1,
+    switchToForgotMode,
+    returnFromForgotToMain,
+    clearForgotSuccessAndReset,
+    goToSignupDetailsStep,
+    onSelectPhoneCountry,
+    choosePasswordSignIn,
     handleStep1Continue,
     handleContinueWithEmailCode,
     handleCreateAccountStep2,
@@ -260,6 +326,5 @@ export function useAuthPortal() {
     authPortalInputClass,
     authPortalLabelClass,
     authPortalLabelBlackClass,
-    authPortalErrorClass,
   }
 }
