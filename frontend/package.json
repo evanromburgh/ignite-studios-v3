@@ -7,7 +7,8 @@
     "#app-manifest": "./nuxt-app-manifest-stub.mjs"
   },
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build && node scripts/patch-output-imports.mjs",
+    "build:fresh": "nuxi cleanup && npm run build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
