@@ -2,9 +2,15 @@
   "name": "frontend",
   "type": "module",
   "private": true,
+  "imports": {
+    "#internal/nuxt/paths": "./nuxt-internal-paths-stub.mjs",
+    "#app-manifest": "./nuxt-app-manifest-stub.mjs"
+  },
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build && node scripts/patch-output-imports.mjs",
+    "build:fresh": "nuxi cleanup && npm run build",
     "dev": "nuxt dev",
+    "dev:fresh": "nuxi cleanup && nuxt prepare && nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -16,6 +22,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.104.0",
     "nuxt": "^3.21.2",
+    "swiper": "^11.2.10",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
