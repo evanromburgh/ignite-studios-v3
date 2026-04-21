@@ -1,9 +1,13 @@
 <template>
   <ClientOnly>
+    <!-- Fixed shell so SSR + pre-hydration paint hide layout nav (nav is z-[170], fixed). -->
     <template #fallback>
-      <div class="min-h-screen bg-theme-bg" aria-hidden="true" />
+      <div class="fixed inset-0 z-[1000] bg-theme-bg" aria-hidden="true" />
     </template>
-    <div v-if="authLoading" class="min-h-screen bg-theme-bg flex items-center justify-center px-5">
+    <div
+      v-if="authLoading"
+      class="fixed inset-0 z-[1000] bg-theme-bg flex items-center justify-center px-5"
+    >
       <p class="text-sm text-theme-text-muted">Loading&hellip;</p>
     </div>
     <AuthPortal v-else-if="!user" />

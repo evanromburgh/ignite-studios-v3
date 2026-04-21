@@ -3,7 +3,10 @@
     <template #fallback>
       <div class="min-h-[50vh] bg-theme-bg" aria-hidden="true" />
     </template>
-    <div class="nav-section light px-5 sm:px-8 md:px-24 lg:px-40 xl:px-56 pt-[7.5rem] sm:pt-[11rem] sm:pb-20">
+    <div
+      v-if="authLoading || user"
+      class="nav-section light px-5 sm:px-8 md:px-24 lg:px-40 xl:px-56 pt-[7.5rem] sm:pt-[11rem] sm:pb-20"
+    >
         <header class="mb-10 sm:mb-16">
           <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-theme-text-primary tracking-tight mb-2">
             My Profile
@@ -17,15 +20,7 @@
           <p class="text-zinc-500 text-base sm:text-lg">Loading your profile&hellip;</p>
         </div>
 
-        <div
-          v-else-if="!user"
-          class="rounded-xl border border-theme-border bg-theme-surface p-8 sm:p-12 text-center"
-        >
-          <p class="text-zinc-500 text-base sm:text-lg mb-4">You need to be signed in to view your profile.</p>
-          <AuthPortal />
-        </div>
-
-        <div v-else class="flex flex-col gap-6 lg:gap-8">
+        <div v-else-if="user" class="flex flex-col gap-6 lg:gap-8">
           <section
             class="relative flex flex-col rounded-[0.75rem] px-6 py-6 sm:px-8 sm:py-8 border border-zinc-200 bg-white"
           >
@@ -111,12 +106,23 @@ const { user, authLoading, logout } = useAuth()
 
 const isLoggingOut = ref(false)
 
+/** One auth entry: same full-screen AuthPortal as `/` (see `pages/index.vue`). */
+watch(
+  [user, authLoading],
+  () => {
+    if (!import.meta.client) return
+    if (!authLoading.value && !user.value) {
+      void navigateTo('/', { replace: true })
+    }
+  },
+  { immediate: true },
+)
+
 function handleSignOut() {
   if (isLoggingOut.value) return
   isLoggingOut.value = true
   void logout().finally(() => {
     isLoggingOut.value = false
-    void navigateTo('/')
   })
 }
 </script>

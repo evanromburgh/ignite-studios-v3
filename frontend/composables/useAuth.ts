@@ -215,12 +215,18 @@ export function useAuth() {
     if (!supabase) {
       currentUser.value = null
       sessionRef.value = null
-      return
+    } else {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      currentUser.value = null
+      sessionRef.value = null
     }
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
-    currentUser.value = null
-    sessionRef.value = null
+    if (import.meta.client) {
+      const path = window.location.pathname || '/'
+      if (path !== '/' && path !== '') {
+        await navigateTo('/', { replace: true })
+      }
+    }
   }
 
   const resetPasswordForEmail = async (email: string) => {
