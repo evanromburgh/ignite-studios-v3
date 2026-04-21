@@ -2,6 +2,10 @@
   "name": "frontend",
   "type": "module",
   "private": true,
+  "imports": {
+    "#internal/nuxt/paths": "./nuxt-internal-paths-stub.mjs",
+    "#app-manifest": "./nuxt-app-manifest-stub.mjs"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
+import { fileURLToPath } from 'node:url'
+import { resolve as resolvePath } from 'node:path'
 import { defaultPublicBranding } from './config/brandingDefaults'
+
+const configDir = fileURLToPath(new URL('.', import.meta.url))
 
 const defaultSeoTitle = 'Streamline Your Unit Reservation Process'
 const defaultSeoDescription =
@@ -76,6 +80,15 @@ export default defineNuxtConfig({
           process.env.NUXT_PUBLIC_BRANDING_LOGO_DARK_URL || defaultPublicBranding.logoDarkUrl,
         seoImageUrl:
           process.env.NUXT_PUBLIC_BRANDING_SEO_IMAGE_URL || defaultPublicBranding.seoImageUrl,
+      },
+    },
+  },
+
+  vite: {
+    resolve: {
+      alias: {
+        '#app-manifest': resolvePath(configDir, 'nuxt-app-manifest-stub.mjs'),
+        '#internal/nuxt/paths': resolvePath(configDir, 'nuxt-internal-paths-stub.mjs'),
       },
     },
   },
