@@ -75,3 +75,62 @@ a[href^='x-apple-data-detectors://'] {
 *::after {
   letter-spacing: normal !important;
 }
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+input[type='number'] {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.auth-password-input {
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+
+/* Auth portal card — moving border (reference v2) */
+.border-beam-container {
+  position: relative;
+  padding: 1px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.border-beam-container::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 280deg,
+    rgba(24, 24, 27, 1) 320deg,
+    transparent 360deg
+  );
+  animation: beam-rotate 4s linear infinite;
+  z-index: 0;
+}
+@keyframes beam-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.border-beam-inner {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background: var(--theme-surface-elevated);
+}
