@@ -2,3 +2,6 @@
 export const CONFIG = {
   PASSWORD_MIN_LENGTH: 8,
 } as const
+
+/** Supabase email OTP length (reference portal). */
+export const AUTH_OTP_LENGTH = 8 as const
