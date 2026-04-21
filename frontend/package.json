@@ -10,6 +10,7 @@
     "build": "nuxt build && node scripts/patch-output-imports.mjs",
     "build:fresh": "nuxi cleanup && npm run build",
     "dev": "nuxt dev",
+    "dev:fresh": "nuxi cleanup && nuxt prepare && nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
