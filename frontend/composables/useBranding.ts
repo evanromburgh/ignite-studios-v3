@@ -1,17 +1,21 @@
-export interface PublicBranding {
-  faviconUrl: string
-  logoLightUrl: string
-  logoDarkUrl: string
-  seoImageUrl: string
+import type { PublicBranding } from '~/config/brandingDefaults'
+import { defaultPublicBranding } from '~/config/brandingDefaults'
+
+export type { PublicBranding } from '~/config/brandingDefaults'
+
+function mergeBranding(
+  partial: Partial<PublicBranding> | undefined | null,
+): PublicBranding {
+  return {
+    faviconUrl: partial?.faviconUrl ?? defaultPublicBranding.faviconUrl,
+    logoLightUrl: partial?.logoLightUrl ?? defaultPublicBranding.logoLightUrl,
+    logoDarkUrl: partial?.logoDarkUrl ?? defaultPublicBranding.logoDarkUrl,
+    seoImageUrl: partial?.seoImageUrl ?? defaultPublicBranding.seoImageUrl,
+  }
 }
 
-export function useBranding() {
+export function useBranding(): PublicBranding {
   const config = useRuntimeConfig()
-  const branding = config.public.branding as PublicBranding
-  return {
-    faviconUrl: branding.faviconUrl,
-    logoLightUrl: branding.logoLightUrl,
-    logoDarkUrl: branding.logoDarkUrl,
-    seoImageUrl: branding.seoImageUrl,
-  }
+  const raw = config.public.branding as Partial<PublicBranding> | undefined
+  return mergeBranding(raw)
 }
