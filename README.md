@@ -2,6 +2,8 @@
 
 Greenfield Nuxt app for the v3 rebuild ([PRD #1](https://github.com/evanromburgh/ignite-studios-v3/issues/1)). The legacy v2 app and Supabase stay frozen; this repo targets a **new** Supabase project.
 
+**AI / Cursor:** See [`AGENTS.md`](./AGENTS.md) for repo workflow (issues, `frontend/` commands, `gh --repo evanromburgh/ignite-studios-v3`).
+
 ## Prereqs
 
 - Node 20+ (you have Node 22)
