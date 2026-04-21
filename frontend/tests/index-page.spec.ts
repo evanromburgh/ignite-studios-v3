@@ -29,6 +29,19 @@ mockNuxtImport('useAuth', () => () => ({
   checkEmailExists: vi.fn(),
 }))
 
+mockNuxtImport('useCatalog', () => () => ({
+  units: ref([]),
+  loading: ref(false),
+  error: ref(null),
+  refresh: vi.fn(),
+}))
+
+mockNuxtImport('useWishlist', () => () => ({
+  wishlistIds: ref([]),
+  toggle: vi.fn(),
+  isWishlisted: vi.fn(() => false),
+}))
+
 describe('pages/index.vue', () => {
   it('renders the browse hero when authenticated', async () => {
     const wrapper = await mountSuspended(IndexPage)
