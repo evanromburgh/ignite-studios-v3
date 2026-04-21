@@ -1,0 +1,61 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './app/**/*.{vue,js,ts}',
+    './components/**/*.{vue,js,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './plugins/**/*.{js,ts}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        theme: {
+          bg: 'var(--theme-bg)',
+          surface: 'var(--theme-surface)',
+          'surface-hover': 'var(--theme-surface-hover)',
+          'surface-elevated': 'var(--theme-surface-elevated)',
+          border: 'var(--theme-border)',
+          'border-strong': 'var(--theme-border-strong)',
+          overlay: 'var(--theme-overlay)',
+          'overlay-nav': 'var(--theme-overlay-nav)',
+          'overlay-dropdown': 'var(--theme-overlay-dropdown)',
+          'input-bg': 'var(--theme-input-bg)',
+          'text-primary': 'var(--theme-text-primary)',
+          'text-muted': 'var(--theme-text-muted)',
+          'text-muted-2': 'var(--theme-text-muted-2)',
+        },
+        stone: {
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',
+          600: '#57534e',
+          700: '#44403c',
+          800: '#292524',
+          900: '#1c1917',
+          950: '#0c0a09',
+        },
+        emerald: {
+          50: '#ecfdf5',
+          100: '#d1fae5',
+          200: '#a7f3d0',
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+          700: '#047857',
+          800: '#065f46',
+          900: '#064e3b',
+          950: '#022c22',
+        },
+      },
+      fontFamily: {
+        sans: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
